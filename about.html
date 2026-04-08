@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav__container">
+            <a href="index.html"><h4 class="logo">KIE</h4></a>
+            <ul class="nav__menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="registration.html" class="nav-link">Register</a></li>
+                <li><a href="signin.html" class="nav-link">Sign In</a></li>
+            </ul>
+            <button id="open-menu-button" class="menu-toggle"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-button" class="menu-toggle"><i class="uil uil-multiply"></i></button>
+        </div>
+    </nav>
+
+    <section class="about__page">
+        <div class="container" style="padding-top:8rem; padding-bottom:6rem;">
+            <h2 style="text-align:left; margin-bottom:1rem;">About KIE</h2>
+            <p style="color:var(--color-light); max-width:800px; margin-bottom:3rem;">
+                Knowledge Intelligence Excellence (KIE) is an innovative educational platform designed to help students
+                learn at their own pace while keeping parents informed. We combine curated video lessons, randomized CBT
+                quizzes, AI-powered learning recommendations, and real-time progress tracking into a single seamless
+                experience.
+            </p>
+
+            <h3 style="color:var(--color-warning); margin-bottom:1rem;">Our Mission</h3>
+            <p style="color:var(--color-light); max-width:800px; margin-bottom:2rem;">
+                To democratize quality education by leveraging technology to make learning accessible, engaging, and
+                measurable. We believe every student has the potential to excel when given the right tools and guidance.
+            </p>
+
+            <h3 style="color:var(--color-warning); margin-bottom:1rem;">Our Approach</h3>
+            <p style="color:var(--color-light); max-width:800px; margin-bottom:2rem;">
+                Students register, pay a fee, and gain access to subject-specific learning paths aligned to their
+                assigned class. Each path contains curated YouTube video lessons. After watching a video, students must
+                spend sufficient time on the topic (tracked at a minimum of the video duration), then take a
+                randomly-generated CBT quiz. All feedback is sent automatically to the parent's WhatsApp. Our AI Student
+                Manager studies each learner's patterns and suggests personalized improvement strategies.
+            </p>
+
+            <h3 style="color:var(--color-warning); margin-bottom:1rem;">Key Features</h3>
+            <ul style="color:var(--color-light); max-width:800px; margin-bottom:2rem; list-style:disc; padding-left:2rem;">
+                <li style="margin-bottom:0.5rem;">Video-based learning with watch-time tracking</li>
+                <li style="margin-bottom:0.5rem;">Randomized CBT quizzes after each lesson</li>
+                <li style="margin-bottom:0.5rem;">AI-powered personalized learning recommendations</li>
+                <li style="margin-bottom:0.5rem;">Real-time WhatsApp notifications to parents</li>
+                <li style="margin-bottom:0.5rem;">Instructor chat for questions and answers</li>
+                <li style="margin-bottom:0.5rem;">Payment tracking with automatic course unlocking</li>
+                <li style="margin-bottom:0.5rem;">Progress dashboard for students and parents</li>
+            </ul>
+
+            <h3 style="color:var(--color-warning); margin-bottom:1rem;">The Team</h3>
+            <p style="color:var(--color-light); max-width:800px; margin-bottom:2rem;">
+                KIE is built by educators and technologists who understand the Nigerian education landscape. Our
+                curriculum is aligned with the WAEC and JAMB syllabi, ensuring relevance to exam preparation.
+            </p>
+
+            <a href="courses.html" class="btn btn-primary" style="margin-top:1rem;">Browse Courses</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Our Students Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-img" style="background:var(--color-primary); border-radius:50%; width:60px; height:60px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">A</div>
+                    <p>"KIE helped me prepare for JAMB and I scored above 300. The quizzes after the videos really helped me retain what I learned."</p>
+                    <h5>Adebayo M.</h5>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-img" style="background:var(--color-success); border-radius:50%; width:60px; height:60px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">C</div>
+                    <p>"My parents love getting updates from KIE on WhatsApp. They can see exactly how I am progressing and I am more motivated."</p>
+                    <h5>Chidinma O.</h5>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-img" style="background:var(--color-warning); border-radius:50%; width:60px; height:60px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">O</div>
+                    <p>"The AI suggestions pointed out topics I was weak in and I re-watched those videos. I went from a D to a B in two months."</p>
+                    <h5>Olumide S</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer__container">
+            <div class="footer__about">
+                <h4 class="logo">KIE</h4>
+                <p>KIE provides an innovative learning platform combining video lessons, interactive quizzes, AI guidance, and parent communication.</p>
+            </div>
+            <div class="footer__links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer__contact">
+                <h4>Contact Us</h4>
+                <p><i class="uil uil-phone-alt"></i> +234 706 878 3923</p>
+                <p><i class="uil uil-envelope"></i> info@kie.edu.ng</p>
+                <p><i class="uil uil-map-marker"></i> Lagos, Nigeria</p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <p>&copy; 2025 KIE (Knowledge in Excellence). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="JAVASCRIPT/main.js"></script>
+</body>
+</html>
