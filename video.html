@@ -40,7 +40,7 @@
         </div>
 
         <div class="video-details">
-            <h3 style="margin-bottom:0.5rem;">Mathematics: Introduction to Algebra</h3>
+            <h3 id="lesson-title" style="margin-bottom:0.5rem;">Loading Lesson...</h3>
             <p style="color:var(--color-light); margin-bottom:1.5rem;">Lesson 1 of 5 • SS1</p>
             <p>After watching this video in its entirety, a quiz will unlock automatically. You must spend at least <strong>15 minutes</strong> on this page for the quiz to become available.</p>
         </div>
@@ -81,52 +81,6 @@
         </div>
     </footer>
 
-    <script src="JAVASCRIPT/main.js"></script>
-    <script>
-        // Demo mode detection (must run first)
-        const urlParams = new URLSearchParams(window.location.search);
-        let isDemo = localStorage.getItem('demoMode') === 'true' || urlParams.get('demo') === 'true';
-        if (isDemo) {
-            localStorage.setItem('demoMode', 'true');
-        }
-
-        // Watch timer
-        const requiredSeconds = isDemo ? 0 : 15 * 60; // 15 min real, zero for demo
-        let watchedSeconds = 0;
-        const requiredTimeEl = document.getElementById('required-time');
-        const currentTimeEl = document.getElementById('current-time');
-        const statusEl = document.getElementById('timer-status');
-        const unlockBanner = document.getElementById('quiz-unlocked-banner');
-
-        requiredTimeEl.textContent = isDemo ? '0:00' : (requiredSeconds / 60).toFixed(0) + ':00';
-        if (isDemo) {
-            statusEl.textContent = '✅ Demo mode - no minimum required';
-        }
-
-        function formatTime(seconds) {
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            return m + ':' + s.toString().padStart(2, '0');
-        }
-
-        const interval = setInterval(() => {
-            watchedSeconds++;
-            currentTimeEl.textContent = formatTime(watchedSeconds);
-            if (watchedSeconds >= requiredSeconds) {
-                clearInterval(interval);
-                statusEl.textContent = '✅ Complete - Quiz unlocked';
-                statusEl.style.color = 'var(--color-success)';
-                unlockBanner.style.display = 'block';
-            }
-        }, 1000);
-
-        // Show demo banner if applicable
-        if (isDemo) {
-            const banner = document.getElementById('demo-banner');
-            if (banner) banner.style.display = 'block';
-        }
-    </script>
-</body>
-</html>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>

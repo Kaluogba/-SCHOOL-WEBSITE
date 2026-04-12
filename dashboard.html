@@ -27,92 +27,62 @@
 
     <section class="dashboard__container">
         <div class="container">
-            <div id="demo-banner" style="display:none; background:var(--color-warning); color:#000; text-align:center; padding:0.5rem; font-weight:600; border-radius:0.5rem; margin-bottom:1rem;">
-                DEMO MODE - <a href="#" onclick="localStorage.removeItem('demoMode'); location.reload();" style="color:#000; text-decoration:underline;">Exit</a>
+            <div id="demo-banner" class="demo-banner">
+                DEMO MODE - <a href="#" onclick="localStorage.removeItem('demoMode'); location.reload();">Exit</a>
             </div>
             <div class="dashboard__welcome">
-                <h2>Welcome back, John!</h2>
-                <p style="color:var(--color-light);">Continue your learning journey.</p>
+                <h2 id="dash-name">Welcome back, Student!</h2>
+                <p class="dashboard-subtitle">Continue your learning journey.</p>
             </div>
 
             <!-- Payment Banner (will be dynamic) -->
             <div class="payment-banner" id="payment-status">
                 <div>
-                    <h4 style="color:var(--color-warning); margin-bottom:0.5rem;">Payment Status</h4>
-                    <p class="payment-status" style="background:var(--color-success); color:var(--color-white); padding:4px 12px; border-radius:20px; display:inline-block;">Paid - Full Access</p>
+                    <h4 class="payment-title">Payment Status</h4>
+                    <p class="payment-status payment-pill">Paid - Full Access</p>
                 </div>
                 <div style="text-align:right;">
-                    <p style="font-size:0.85rem; color:var(--color-light);">Next fee due: <strong>15 Oct 2025</strong></p>
+                    <p class="payment-date">Next fee due: <strong>15 Oct 2025</strong></p>
                 </div>
             </div>
 
             <!-- AI recommendations -->
-            <div class="ai-card">
-                <h3><i class="uil uil-brain" style="color:var(--color-success); margin-right:0.5rem;"></i> Your AI Learning Insights</h3>
-                <ul>
-                    <li>You spent <strong>20% more time</strong> on physics videos – great engagement!</li>
-                    <li>Your quiz scores in math have dipped from 85% to 70%. Consider revisiting Algebra.</li>
-                    <li>The AI recommends you take a <a href="#" style="color:var(--color-primary);">practice quiz</a> next.</li>
-                    <li>Remember: You need to spend at least <strong>25 minutes</strong> on each video before the quiz unlocks.</li>
+            <div class="ai-card" id="ai-insights">
+                <h3><i class="uil uil-brain ai-icon"></i> Your AI Learning Insights</h3>
+                <ul id="ai-list">
+                    <li>Generating your personalized AI insights...</li>
                 </ul>
             </div>
 
             <!-- Stats -->
             <div class="dashboard__stats">
                 <div class="stat-card">
-                    <h4>12</h4>
+                    <h4 id="stat-completed">0</h4>
                     <p>Completed Lessons</p>
                 </div>
                 <div class="stat-card">
-                    <h4>8</h4>
+                    <h4 id="stat-passed">0</h4>
                     <p>Quizzes Passed</p>
                 </div>
                 <div class="stat-card">
-                    <h4>2</h4>
+                    <h4 id="stat-pending">0</h4>
                     <p>Quizzes Pending</p>
                 </div>
                 <div class="stat-card">
-                    <h4>85%</h4>
+                    <h4 id="stat-score">0%</h4>
                     <p>Average Score</p>
                 </div>
             </div>
 
             <!-- Courses -->
-            <h3 style="margin-bottom:1.5rem;">Your Learning Path</h3>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-card__content">
-                        <h4>Mathematics - Algebra</h4>
-                        <p>Video • 30 min</p>
-                        <div style="background:var(--color-bg); height:6px; border-radius:3px; margin:0.8rem 0; overflow:hidden;">
-                            <div style="width:100%; height:100%; background:var(--color-success);"></div>
-                        </div>
-                        <a href="#" class="btn btn-primary" style="padding:0.7rem 1.2rem; font-size:0.85rem;">Continue</a>
-                    </div>
-                </div>
-                <div class="course-card">
-                    <div class="course-card__content">
-                        <h4>Physics - Motion</h4>
-                        <p>Quiz • 15 min</p>
-                        <div style="background:var(--color-bg); height:6px; border-radius:3px; margin:0.8rem 0; overflow:hidden;">
-                            <div style="width:0%; height:100%; background:var(--color-warning);"></div>
-                        </div>
-                        <a href="quiz.html" class="btn btn-primary" style="padding:0.7rem 1.2rem; font-size:0.85rem;">Start Quiz</a>
-                    </div>
-                </div>
-                <div class="course-card">
-                    <div class="course-card__content">
-                        <h4>Further Mathematics - Differentiation</h4>
-                        <p>Not started</p>
-                        <p style="font-size:0.85rem; color:var(--color-light); margin:0.8rem 0;">Locked. Complete previous video first.</p>
-                        <button class="btn" style="padding:0.7rem 1.2rem; font-size:0.85rem; cursor:not-allowed;">Locked</button>
-                    </div>
-                </div>
+            <h3 class="learning-path-title">Your Learning Path</h3>
+            <div class="courses-grid" id="courses-container">
+                <p class="dashboard-subtitle">Loading your courses...</p>
             </div>
         </div>
     </section>
 
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
     <script>
         const isDemo = localStorage.getItem('demoMode') === 'true';
         if (isDemo) {
@@ -149,6 +119,6 @@
         </div>
     </footer>
 
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>

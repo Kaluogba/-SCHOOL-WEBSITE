@@ -26,35 +26,18 @@
     </nav>
 
     <section class="quiz__container">
-        <div id="demo-banner" style="background:var(--color-warning); color:#000; text-align:center; padding:0.5rem; font-weight:600; border-radius:0.5rem; margin-bottom:1rem;">
-            DEMO MODE - <a href="#" onclick="localStorage.removeItem('demoMode'); location.reload();" style="color:#000; text-decoration:underline;">Exit</a>
+        <div id="demo-banner" class="demo-banner">
+            DEMO MODE - <a href="#" onclick="localStorage.removeItem('demoMode'); location.reload();">Exit</a>
         </div>
         <div class="quiz__header">
             <h2>Algebra Quiz</h2>
             <div class="quiz__timer">⏱ 15:00</div>
         </div>
 
-        <div class="quiz__question">
-            <h4>1. Simplify: (x^2 + 3x - 4) / (x + 4)</h4>
-            <div class="quiz__options">
-                <label><input type="radio" name="q1" value="a"> a) x + 1</label>
-                <label><input type="radio" name="q1" value="b"> b) x - 1</label>
-                <label><input type="radio" name="q1" value="c"> c) x^2 - 1</label>
-                <label><input type="radio" name="q1" value="d"> d) x + 4</label>
-            </div>
+        <!-- Dynamic questions injected here -->
+        <div id="quiz-nodes">
+            <h4 style="text-align:center;">Loading quiz payload...</h4>
         </div>
-
-        <div class="quiz__question">
-            <h4>2. Solve for x: 2x + 5 = 17</h4>
-            <div class="quiz__options">
-                <label><input type="radio" name="q2" value="a"> a) x = 6</label>
-                <label><input type="radio" name="q2" value="b"> b) x = 5</label>
-                <label><input type="radio" name="q2" value="c"> c) x = 4</label>
-                <label><input type="radio" name="q2" value="d"> d) x = 3</label>
-            </div>
-        </div>
-
-        <!-- More dynamic questions would be loaded via JS based on class/subject -->
 
         <div style="text-align:center;">
             <button id="submit-quiz" class="btn btn-primary" style="min-width:200px;">Submit Quiz</button>
@@ -97,36 +80,6 @@
         </div>
     </footer>
 
-    <script>
-        // Simple demo quiz timer and submission
-        const isDemo = localStorage.getItem('demoMode') === 'true';
-
-        // Set the right timer
-        let time = isDemo ? 90 : 15 * 60;
-        if (isDemo) {
-            document.querySelectorAll('.quiz__question').forEach(q => {
-                // In demo, all questions are visible
-            });
-        }
-
-        const timerEl = document.querySelector('.quiz__timer');
-        const interval = setInterval(() => {
-            const m = Math.floor(time / 60);
-            const s = time % 60;
-            timerEl.textContent = `⏱ ${m}:${s.toString().padStart(2, '0')}`;
-            time--;
-            if (time < 0) {
-                clearInterval(interval);
-                alert('Time\'s up!');
-            }
-        }, 1000);
-
-        document.getElementById('submit-quiz').addEventListener('click', () => {
-            document.querySelector('.quiz__question').style.display = 'none';
-            document.getElementById('submit-quiz').style.display = 'none';
-            document.getElementById('quiz-result').style.display = 'block';
-        });
-    </script>
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>

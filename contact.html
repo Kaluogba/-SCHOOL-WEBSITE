@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Contact KIE</title>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,31 +27,35 @@
         </div>
     </nav>
 
-    <section class="contact__container">
-        <div class="contact__info">
-            <h2>Get in Touch</h2>
-            <p style="color:var(--color-light); margin-bottom:2rem;">
-                Have questions about our platform, payment process, or need support? We'd love to hear from you. Fill out the form or use the contact details below.
-            </p>
-            <div>
-                <p><i class="uil uil-phone-alt"></i> +234 706 878 3923</p>
-                <p><i class="uil uil-phone-alt"></i> +234 704 247 7538</p>
-                <p><i class="uil uil-envelope"></i> info@kie.edu.ng</p>
-                <p><i class="uil uil-envelope"></i> support@kie.edu.ng</p>
-                <p><i class="uil uil-map-marker"></i> 123 Education Avenue, Ikeja, Lagos, Nigeria</p>
-            </div>
-        </div>
-        <div class="contact__form" style="background:var(--color-bg1); padding:2rem; border-radius:1.5rem;">
-            <form class="demo-form">
-                <div class="form-row">
-                    <div><label>First Name</label><input type="text" placeholder="First name" required></div>
-                    <div><label>Last Name</label><input type="text" placeholder="Last name" required></div>
+    <section class="contact__container container">
+        <aside class="contact__info">
+            <h3>Get In Touch</h3>
+            <p>We'd love to hear from you. Please fill out the form or use the contact information below.</p>
+            <p><i class="uil uil-phone-alt"></i> +234 706 878 3923</p>
+            <p><i class="uil uil-envelope"></i> info@kie.edu.ng</p>
+            <p><i class="uil uil-map-marker"></i> Lagos, Nigeria</p>
+        </aside>
+
+        <div class="form__card" style="margin: 0; box-shadow: none; padding: 2rem;">
+            <h2>Send us a Message</h2>
+            <form id="contact-form">
+                <div>
+                    <label>Name</label>
+                    <input type="text" name="name" required placeholder="Your full name">
                 </div>
-                <div><label>Email</label><input type="email" placeholder="Your email address" required></div>
-                <div><label>Subject</label><input type="text" placeholder="How can we help you?"></div>
-                <div><label>Message</label><textarea rows="5" placeholder="Your message..."></textarea></div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-                <p style="font-size:0.8rem; color:var(--color-light); margin-top:1rem;">Demo message only; no backend connected yet.</p>
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" required placeholder="you@example.com">
+                </div>
+                <div>
+                    <label>Subject</label>
+                    <input type="text" name="subject" required placeholder="Subject">
+                </div>
+                <div>
+                    <label>Message</label>
+                    <textarea name="message" rows="5" required placeholder="What would you like to say?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit-contact">Send Message</button>
             </form>
         </div>
     </section>
@@ -85,6 +89,6 @@
         </div>
     </footer>
 
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>

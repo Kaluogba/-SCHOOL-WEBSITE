@@ -25,24 +25,16 @@
         </div>
     </nav>
 
-    <section class="chat__container container">
-        <h2 style="margin-bottom:1rem;">Questions & Answers</h2>
-        <div class="chat__box">
-            <div class="chat__messages" id="chat-messages">
-                <div class="chat__message instructor">
-                    <p>Hello! I'm your instructor. Ask any questions about the video lessons.</p>
-                    <div class="chat__meta">Instructor • 10:30 AM</div>
-                </div>
-                <!-- More messages would be loaded from backend -->
-            </div>
-            <form class="chat__input" id="chat-form">
-                <input type="text" placeholder="Type your question..." name="message" required>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        </div>
-        <p style="font-size:0.85rem; color:var(--color-light); margin-top:1rem;">Demo: messages are not sent to backend yet.</p>
+    <section class="chat__container container" style="text-align:center; padding: 10rem 0;">
+        <i class="uil uil-whatsapp" style="font-size: 5rem; color: #25D366; margin-bottom: 1rem; display: block;"></i>
+        <h2 style="margin-bottom:1rem;">Premium Instructor Support</h2>
+        <p style="color:var(--color-light); max-width: 600px; margin: 0 auto 2rem auto;">
+            We have transitioned our Q&A system directly to WhatsApp for faster, dedicated, and personalized responses from your assigned KIE Instructors. 
+        </p>
+        <a href="https://wa.me/+2347068783923?text=Hello%20Instructor%2C%20I%20am%20a%20KIE%20student%20and%20need%20help!" target="_blank" class="btn btn-primary" style="background-color: #25D366; color: white; padding: 1rem 2rem; font-size: 1.1rem; border-radius: 2rem;">
+            <i class="uil uil-message"></i> Connect on WhatsApp
+        </a>
     </section>
-
     <footer class="footer">
         <div class="container footer__container">
             <div class="footer__about">
@@ -71,31 +63,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.getElementById('chat-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = this.querySelector('input');
-            const text = input.value.trim();
-            if (!text) return;
-            const chatBox = document.getElementById('chat-messages');
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat__message user';
-            userMsg.innerHTML = `<p>${text}</p><div class="chat__meta">You • ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>`;
-            chatBox.appendChild(userMsg);
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Simulate instructor reply after delay (backend would push real reply)
-            setTimeout(() => {
-                const replyMsg = document.createElement('div');
-                replyMsg.className = 'chat__message instructor';
-                replyMsg.innerHTML = `<p>Thanks for your question! An instructor will reply shortly. In the meantime, review the video again.</p><div class="chat__meta">Instructor • Now</div>`;
-                chatBox.appendChild(replyMsg);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 1000);
-        });
-    </script>
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>

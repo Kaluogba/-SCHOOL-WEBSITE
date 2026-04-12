@@ -27,11 +27,69 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Form Demo: capture registration/signin (will be replaced with backend)
-const forms = document.querySelectorAll('.demo-form');
-forms.forEach(form => {
-    form.addEventListener('submit', (e) => {
+// Base URL for Backend API
+const API_BASE = 'http://localhost:5000/api';
+
+// Handle Registration
+const regBtn = document.getElementById('submit-registration');
+if (regBtn) {
+    regBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        alert('This form is a demo. Connect to backend to submit!');
+        const form = document.getElementById('registration-form');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        const statusDiv = document.getElementById('form-status');
+        statusDiv.style.color = 'var(--color-primary)';
+        statusDiv.innerText = 'Creating account...';
+
+        try {
+            const response = await fetch(`${API_BASE}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                statusDiv.style.color = 'var(--color-success)';
+                statusDiv.innerText = 'Registration successful! Redirecting...';
+                setTimeout(() => window.location.href = 'signin.html', 1500);
+            } else {
+                statusDiv.style.color = 'var(--color-danger)';
+                statusDiv.innerText = result.message || 'Registration failed.';
+            }
+        } catch (error) {
+            statusDiv.style.color = 'var(--color-danger)';
+            statusDiv.innerText = 'Network error. Make sure backend is running.';
+        }
     });
-});
+}
+
+// Handle Sign In
+const signinForm = document.getElementById('signin-form');
+if (signinForm) {
+    signinForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(signinForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch(`${API_BASE}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                // Save token
+                localStorage.setItem('kie_token', result.token);
+                localStorage.setItem('kie_user', JSON.stringify(result.user));
+                window.location.href = 'dashboard.html';
+            } else {
+                alert(result.message || 'Sign in failed');
+            }
+        } catch (error) {
+            alert('Network error. Make sure backend is running.');
+        }
+    });
+}

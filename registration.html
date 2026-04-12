@@ -87,7 +87,7 @@
                     </div>
                     <div>
                         <label>Email</label>
-                        <input type="email" name="guardian_email" placeholder="Email (optional)">
+                        <input type="email" name="guardian_email" placeholder="Parent/Guardian email" required>
                     </div>
                     <div>
                         <label>WhatsApp Number</label>
@@ -141,8 +141,9 @@
                     <input type="password" name="confirm_password" placeholder="Confirm password" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Create Account</button>
+                <button type="button" id="submit-registration" class="btn btn-primary">Create Account</button>
                 <p class="link-text">Already have an account? <a href="signin.html">Sign In</a></p>
+                <div id="form-status" style="margin-top:1rem; min-height:1.2rem;"></div>
             </form>
         </div>
     </section>
@@ -176,6 +177,6 @@
         </div>
     </footer>
 
-    <script src="JAVASCRIPT/main.js"></script>
+    <script type="module" src="JAVASCRIPT/app.js"></script>
 </body>
 </html>
