@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+
+const messageSchema = new mongoose.Schema({
+  senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  senderName: String,
+  senderRole: String, // student/instructor
+  content: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('Message', messageSchema);
