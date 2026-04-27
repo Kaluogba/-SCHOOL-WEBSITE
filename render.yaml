@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: kie-school-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGO_URI
+        sync: false # To be provided in Render dashboard for security
+      - key: JWT_SECRET
+        sync: false # To be provided in Render dashboard for security
+      - key: PORT
+        value: 5000
+      - key: FRONTEND_URL
+        value: "*"
