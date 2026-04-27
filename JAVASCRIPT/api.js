@@ -1,4 +1,8 @@
-export const API_BASE = 'http://localhost:5000/api';
+// Automatically detect if we are running locally or in production
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+export const API_BASE = isLocal 
+    ? 'http://localhost:5000/api' 
+    : 'https://your-production-backend.com/api'; // IMPORTANT: Replace with your actual production backend URL!
 
 /**
  * Fetch wrapper to handle tokens and common headers
