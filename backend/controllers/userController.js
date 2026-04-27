@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Course = require('../models/Course');
+const QuizAttempt = require('../models/QuizAttempt');
 
 exports.getDashboardStats = async (req, res) => {
   try {
@@ -8,31 +9,26 @@ exports.getDashboardStats = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Determine exam type level from classLevel (e.g., "SSS1" -> "SSS", "JSS2" -> "JSS")
-    let examTypeMatch = 'SSS'; // Default fallback
+    // Determine exam type from classLevel
+    let examTypeMatch = 'SSS';
     if (user.classLevel && user.classLevel.toUpperCase().includes('JSS')) {
       examTypeMatch = 'JSS';
-    } else if (user.classLevel && user.classLevel.toUpperCase().includes('SSS')) {
-      examTypeMatch = 'SSS';
     }
 
-    // Fetch live courses matching User Level
+    // Fetch courses matching the student's level and subjects
     const allCourses = await Course.find({ examType: examTypeMatch });
-    
-    // Filter array to match their registered subjects (If none empty, show all)
     const activeSubjects = user.subjects || [];
     let matchedCourses = allCourses;
-    
     if (activeSubjects.length > 0) {
       matchedCourses = allCourses.filter(c => activeSubjects.includes(c.title));
     }
-    
-    // Flatten course lessons into a dashboard display array
+
+    // Build course cards for dashboard display (up to 6)
     const displayCourses = [];
     matchedCourses.forEach(course => {
       course.lessons.forEach(lesson => {
         displayCourses.push({
-          title: `${course.title} - ${lesson.title}`,
+          title: `${course.title} — ${lesson.title}`,
           type: 'Video',
           duration: `${Math.floor(lesson.duration / 60)} min`,
           progressClass: 'course-progress-bar-fill-warning',
@@ -43,23 +39,50 @@ exports.getDashboardStats = async (req, res) => {
       });
     });
 
+    // Real stats from QuizAttempt collection
+    const attempts = await QuizAttempt.find({ userId: req.user.id });
+    const totalAttempts = attempts.length;
+    const passedAttempts = attempts.filter(a => a.passed).length;
+    const avgScore = totalAttempts > 0
+      ? Math.round(attempts.reduce((sum, a) => sum + a.percentage, 0) / totalAttempts)
+      : 0;
+
+    // Rule-based AI insights
+    const insights = [];
+    if (totalAttempts === 0) {
+      insights.push('🚀 You haven\'t taken any quizzes yet. Watch a video and get started!');
+      insights.push(`📚 You have ${displayCourses.length} lessons available in your learning path.`);
+    } else {
+      if (avgScore >= 80) {
+        insights.push(`🌟 Excellent performance! Your average quiz score is <strong>${avgScore}%</strong>. Keep it up!`);
+      } else if (avgScore >= 50) {
+        insights.push(`📈 Good progress! Your average score is <strong>${avgScore}%</strong>. Reviewing past videos will push you higher.`);
+      } else {
+        insights.push(`⚠️ Your average score is <strong>${avgScore}%</strong>. Try re-watching the lessons before retaking quizzes.`);
+      }
+
+      const failedAttempts = totalAttempts - passedAttempts;
+      if (failedAttempts > 0) {
+        insights.push(`🔄 You have <strong>${failedAttempts} quiz(zes)</strong> you didn't pass. Revisit those topics to improve.`);
+      } else {
+        insights.push(`✅ You've passed all <strong>${passedAttempts}</strong> quiz(zes) you've taken. Fantastic!`);
+      }
+    }
+
     res.status(200).json({
       success: true,
       stats: {
-        completed: user.enrolledCourses.length > 0 ? 12 : 0, 
-        passed: 8,
-        pending: 2,
-        score: '85%'
+        completed: totalAttempts,
+        passed: passedAttempts,
+        pending: Math.max(0, displayCourses.length - totalAttempts),
+        score: totalAttempts > 0 ? `${avgScore}%` : 'N/A'
       },
-      aiInsights: [
-        `You spent <strong>20% more time</strong> on physics videos – great engagement!`,
-        `The AI recommends you review your saved lessons next.`
-      ],
-      courses: displayCourses.slice(0, 6) // Return up to 6 lessons for dashboard
+      aiInsights: insights,
+      courses: displayCourses.slice(0, 6)
     });
 
   } catch (error) {
     console.error('Dashboard Stats Error:', error);
-    res.status(500).json({ success: false, message: 'Server Error' });
+    res.status(500).json({ success: false, message: 'Server Error', error: error.message });
   }
 };

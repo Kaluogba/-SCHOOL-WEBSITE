@@ -1,70 +1,78 @@
 import { apiFetch } from './api.js';
 
 export async function initDashboard() {
-    // Only run if we are on the dashboard
     if (!window.location.pathname.includes('dashboard.html')) return;
 
-    // Set user name
+    // Set welcome name using stored user (name field, not first_name)
     const storedUser = localStorage.getItem('kie_user');
     if (storedUser) {
         try {
             const user = JSON.parse(storedUser);
-            document.getElementById('dash-name').innerText = `Welcome back, ${user.first_name || 'Student'}!`;
+            const firstName = user.name ? user.name.split(' ')[0] : 'Student';
+            const nameEl = document.getElementById('dash-name');
+            if (nameEl) nameEl.innerText = `Welcome back, ${firstName}!`;
         } catch (e) {}
     }
 
     try {
-        // Fetch dashboard stats (This assumes an endpoint returning this data)
         const data = await apiFetch('/user/dashboard-stats');
         renderDashboardData(data);
     } catch (error) {
-        console.warn('Backend unavailable, falling back to dummy dynamic data for demo purposes:', error);
-        
-        // Dummy data fallback
-        const dummyData = {
-            stats: { completed: 14, passed: 9, pending: 1, score: '88%' },
+        console.warn('Backend unavailable, showing fallback data:', error.message);
+
+        // Graceful fallback for demo/offline use
+        renderDashboardData({
+            stats: { completed: 0, passed: 0, pending: 0, score: 'N/A' },
             aiInsights: [
-                'You spent <strong>25% more time</strong> on physics videos – fantastic engagement!',
-                'Your algebra scores are improving steadily.',
-                'The AI recommends you review <a href="#" style="color:var(--color-primary);">Differentiation</a> next.',
+                '🚀 Start your first lesson to see AI-powered insights here.',
+                '📚 Your personalized learning path is ready — click a course below!'
             ],
             courses: [
-                { title: 'Mathematics - Algebra', type: 'Video', duration: '30 min', progressClass: 'course-progress-bar-fill-success', actionText: 'Continue', actionLink: '#', locked: false },
-                { title: 'Physics - Motion', type: 'Quiz', duration: '15 min', progressClass: 'course-progress-bar-fill-warning', actionText: 'Start Quiz', actionLink: 'quiz.html', locked: false },
-                { title: 'Further Mathematics - Differentiation', type: 'Not started', duration: '', progressClass: '', actionText: 'Locked', actionLink: '#', locked: true }
+                { title: 'Mathematics — SSS1: Set Theory & Surds', type: 'Video', duration: '42 min', progressClass: 'course-progress-bar-fill-warning', actionText: 'Watch Video', actionLink: 'video.html', locked: false },
+                { title: 'English — SSS2: Summary Writing', type: 'Video', duration: '35 min', progressClass: 'course-progress-bar-fill-warning', actionText: 'Watch Video', actionLink: 'video.html', locked: false },
+                { title: 'Physics — SSS1: Mechanics', type: 'Video', duration: '42 min', progressClass: 'course-progress-bar-fill-warning', actionText: 'Watch Video', actionLink: 'video.html', locked: false }
             ]
-        };
-        renderDashboardData(dummyData);
+        });
     }
 }
 
 function renderDashboardData(data) {
     if (data.stats) {
-        document.getElementById('stat-completed').innerText = data.stats.completed;
-        document.getElementById('stat-passed').innerText = data.stats.passed;
-        document.getElementById('stat-pending').innerText = data.stats.pending;
-        document.getElementById('stat-score').innerText = data.stats.score;
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+        set('stat-completed', data.stats.completed);
+        set('stat-passed', data.stats.passed);
+        set('stat-pending', data.stats.pending);
+        set('stat-score', data.stats.score);
     }
 
     if (data.aiInsights) {
         const aiList = document.getElementById('ai-list');
-        aiList.innerHTML = '';
-        data.aiInsights.forEach(insight => {
-            const li = document.createElement('li');
-            li.innerHTML = insight;
-            aiList.appendChild(li);
-        });
+        if (aiList) {
+            aiList.innerHTML = '';
+            data.aiInsights.forEach(insight => {
+                const li = document.createElement('li');
+                li.innerHTML = insight;
+                aiList.appendChild(li);
+            });
+        }
     }
 
     if (data.courses) {
         const coursesContainer = document.getElementById('courses-container');
+        if (!coursesContainer) return;
         coursesContainer.innerHTML = '';
+
+        if (data.courses.length === 0) {
+            coursesContainer.innerHTML = '<p style="color:var(--color-light);">No courses found for your profile level. Contact support.</p>';
+            return;
+        }
+
         data.courses.forEach(course => {
             let buttonHTML = '';
             if (course.locked) {
                 buttonHTML = `
                     <p class="locked-text">Locked. Complete previous video first.</p>
-                    <button class="btn locked-btn">Locked</button>
+                    <button class="btn locked-btn" disabled>Locked</button>
                 `;
             } else {
                 buttonHTML = `

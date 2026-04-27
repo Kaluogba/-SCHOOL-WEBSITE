@@ -1,10 +1,11 @@
 const Quiz = require('../models/Quiz');
+const QuizAttempt = require('../models/QuizAttempt');
 
 exports.getQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findOne({ lessonId: req.params.lessonId });
     if (!quiz) {
-      return res.status(404).json({ success: false, message: 'Quiz not found' });
+      return res.status(404).json({ success: false, message: 'Quiz not found for this lesson' });
     }
     res.status(200).json({ success: true, data: quiz });
   } catch (error) {
@@ -21,6 +22,7 @@ exports.submitQuiz = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Quiz not found' });
     }
 
+    // Score calculation
     let score = 0;
     quiz.questions.forEach((q, index) => {
       if (answers[index] === q.correctAnswer) {
@@ -28,14 +30,30 @@ exports.submitQuiz = async (req, res) => {
       }
     });
 
-    const percentage = (score / quiz.questions.length) * 100;
+    const total = quiz.questions.length;
+    const percentage = Math.round((score / total) * 100);
+    const passed = percentage >= 50;
+
+    // Persist the attempt
+    await QuizAttempt.create({
+      userId:     req.user.id,
+      quizId:     quiz._id,
+      lessonId:   quiz.lessonId,
+      courseId:   quiz.courseId,
+      answers:    answers,
+      score,
+      total,
+      percentage,
+      passed
+    });
 
     res.status(200).json({ 
       success: true, 
       score,
-      total: quiz.questions.length,
+      total,
       percentage,
-      passed: percentage >= 50
+      passed,
+      message: passed ? '🎉 Congratulations! You passed!' : 'Keep studying — you can retake this quiz.'
     });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error submitting quiz', error: error.message });

@@ -1,4 +1,5 @@
 const Message = require('../models/Message');
+const User = require('../models/User');
 
 exports.getMessages = async (req, res) => {
   try {
@@ -13,15 +14,20 @@ exports.sendMessage = async (req, res) => {
   try {
     const { content } = req.body;
     
-    if (!content) {
+    if (!content || !content.trim()) {
       return res.status(400).json({ success: false, message: 'Message content required' });
     }
 
+    // Fetch the sender's name from DB (JWT only carries id & role)
+    const user = await User.findById(req.user.id).select('name role');
+    const senderName = user ? user.name : 'Student';
+    const senderRole = user ? user.role : 'student';
+
     const message = new Message({
-      senderId: req.user.id,
-      senderName: req.user.name || 'Student',
-      senderRole: req.user.role || 'student',
-      content
+      senderId:   req.user.id,
+      senderName: senderName,
+      senderRole: senderRole,
+      content:    content.trim()
     });
 
     await message.save();
